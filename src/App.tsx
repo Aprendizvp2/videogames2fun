@@ -1,9 +1,19 @@
-import "./App.css";
+import { ThemeProvider } from "@mui/material";
+import Header from "./components/header/Header";
+import theme from "./types/theme";
+import Games from "./views/games/Games";
+import Home from "./views/home/Home";
+import Footer from "./components/footer/Footer";
 
 function App() {
   return (
     <>
-      <h2>Videogames2fun</h2>
+      <ThemeProvider theme={theme}>
+        <Header />
+        <Home />
+        <Games />
+        <Footer />
+      </ThemeProvider>
     </>
   );
 }
