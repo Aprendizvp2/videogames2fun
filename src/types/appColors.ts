@@ -23,6 +23,7 @@ const appColors = {
   HOVER_BUTTON_COLOR: '#3b82f6', // Azul más claro
   DISABLED_BUTTON_COLOR: '#334155', // Gris azulado
   BUTTON_TEXT_COLOR: '#ffffff', // Blanco puro
+  BUTTON_DEALS_COLOR: '#20bd26', // Verde brillante
 
   // Colores de consolas (para diferenciar plataformas)
   PLAYSTATION_COLOR: '#006fcd', // Azul PlayStation

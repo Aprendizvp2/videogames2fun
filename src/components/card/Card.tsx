@@ -26,8 +26,8 @@ interface ReusableCardProps {
   imageUrl: string;
   altText: string;
   title: string;
-  description: string;
-  platform?: "playstation" | "xbox" | "nintendo"; // Nueva prop para la plataforma
+  description: string | React.ReactNode;
+  platform?: "playstation" | "xbox" | "nintendo" | "default";
   price?: string;
   actions?: React.ReactNode;
   buttonText?: string;
@@ -55,23 +55,23 @@ interface StyledCardMediaProps {
 }
 
 const StyledCard = styled(MuiCard, {
-  shouldForwardProp: (prop) =>
-    !["hoverEffect"].includes(prop as string),
-})<{ hoverEffect?: boolean }>(
-  ({ theme, hoverEffect }) => ({
-    transition: hoverEffect
-      ? theme.transitions.create(["transform", "box-shadow"], {
-          duration: theme.transitions.duration.standard,
-        })
-      : "none",
-    position: "relative",
-    overflow: "visible",
-    "&:hover": {
-      transform: hoverEffect ? "translateY(-5px)" : "none",
-      boxShadow: hoverEffect ? theme.shadows[6] : "none",
-    },
-  })
-);
+  shouldForwardProp: (prop) => !["hoverEffect"].includes(prop as string),
+})<{ hoverEffect?: boolean }>(({ theme, hoverEffect }) => ({
+  transition: hoverEffect
+    ? theme.transitions.create(["transform", "box-shadow"], {
+        duration: theme.transitions.duration.standard,
+      })
+    : "none",
+  position: "relative",
+  overflow: "visible",
+  display: "flex",
+  flexDirection: "column",
+  height: "100%",
+  "&:hover": {
+    transform: hoverEffect ? "translateY(-5px)" : "none",
+    boxShadow: hoverEffect ? theme.shadows[6] : "none",
+  },
+}));
 
 const StyledCardMedia = styled(MuiCardMedia)<StyledCardMediaProps>(
   ({ theme, imageheight }) => ({
@@ -104,7 +104,7 @@ const PlatformIndicator = styled(Box)<{
 
 const PriceTag = styled(Typography)(({ theme }) => ({
   fontWeight: "bold",
-  color: appColors.MONEY_TEXT_COLOR, 
+  color: appColors.MONEY_TEXT_COLOR,
   borderRadius: "4px",
   display: "inline-block",
   marginTop: theme.spacing(1),
@@ -130,7 +130,7 @@ export default function Card({
   const theme = useTheme();
 
   return (
-    <StyledCard hoverEffect={hoverEffect} sx={sx}>
+    <StyledCard hoverEffect={hoverEffect} sx={{ ...sx }}>
       <PlatformIndicator platform={platform} />
 
       <StyledCardMedia
@@ -140,19 +140,22 @@ export default function Card({
         imageheight={imageHeight}
       />
 
-      <CardContent sx={{ padding: theme.spacing(2, 2, 0) }}>
-        <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Typography
-            gutterBottom
-            variant="h6"
-            component="div"
-            sx={{ fontWeight: "bold" }}
-          >
+      <CardContent
+        sx={{
+          padding: theme.spacing(2, 2, 0),
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+          gap: theme.spacing(1),
+        }}
+      >
+        <div>
+          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
             {title}
           </Typography>
-          {platform && (
+          {platform && platform !== "default" && (
             <Chip
-              label={platform?.charAt(0).toUpperCase() + platform?.slice(1)}
+              label={platform.charAt(0).toUpperCase() + platform.slice(1)}
               size="small"
               sx={{
                 backgroundColor: PLATFORM_COLORS[platform],
@@ -162,14 +165,19 @@ export default function Card({
               }}
             />
           )}
-        </Box>
+        </div>
 
         <Typography
           variant="body2"
           color="text.secondary"
           sx={{
-            minHeight: "40px",
+            flexGrow: 1,
             marginBottom: theme.spacing(1),
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            display: "-webkit-box",
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: "vertical",
           }}
         >
           {description}
@@ -187,6 +195,7 @@ export default function Card({
               ? "flex-end"
               : "flex-start",
           padding: theme.spacing(1, 2, 2),
+          marginTop: "auto",
         }}
       >
         {actions}

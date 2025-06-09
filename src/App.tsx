@@ -4,6 +4,7 @@ import theme from "./types/theme";
 import Games from "./views/games/Games";
 import Home from "./views/home/Home";
 import Footer from "./components/footer/Footer";
+import Deals from "./views/deals/Deals";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Header />
         <Home />
         <Games />
+        <Deals />
         <Footer />
       </ThemeProvider>
     </>
