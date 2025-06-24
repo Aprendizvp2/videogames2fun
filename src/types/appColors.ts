@@ -20,7 +20,7 @@ const appColors = {
 
   // Button color
   BACKGROUND_BUTTON_COLOR: '#0667cf', // Azul principal
-  HOVER_BUTTON_COLOR: '#3b82f6', // Azul más claro
+  HOVER_BUTTON_COLOR: '#08509e', // Azul más claro
   DISABLED_BUTTON_COLOR: '#334155', // Gris azulado
   BUTTON_TEXT_COLOR: '#ffffff', // Blanco puro
   BUTTON_DEALS_COLOR: '#20bd26', // Verde brillante

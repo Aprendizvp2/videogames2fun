@@ -14,7 +14,6 @@ import {
 import { SxProps, Theme } from "@mui/material/styles";
 import appColors from "../../types/appColors";
 
-// Colores de consolas
 const PLATFORM_COLORS = {
   playstation: appColors.PLAYSTATION_COLOR,
   xbox: appColors.XBOX_COLOR,
@@ -131,15 +130,15 @@ export default function Card({
 
   return (
     <StyledCard hoverEffect={hoverEffect} sx={{ ...sx }}>
-      <PlatformIndicator platform={platform} />
-
+      <PlatformIndicator platform={platform} data-testid="platform-indicator"  />
       <StyledCardMedia
+        data-testid="card"
         component="img"
         image={imageUrl}
         alt={altText}
         imageheight={imageHeight}
       />
-
+      
       <CardContent
         sx={{
           padding: theme.spacing(2, 2, 0),
@@ -187,6 +186,7 @@ export default function Card({
       </CardContent>
 
       <CardActions
+        data-testid="card-actions"
         sx={{
           justifyContent:
             actionsAlign === "center"

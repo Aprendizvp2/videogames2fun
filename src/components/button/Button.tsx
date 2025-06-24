@@ -1,73 +1,69 @@
-import { Button as MuiButton, styled } from "@mui/material";
-import { ButtonProps as MuiButtonProps } from "@mui/material/Button";
-
-interface CustomButtonProps {
-  bgColor?: string;
-  hoverBgColor?: string;
-  width?: string;
+import styled from "styled-components";
+import appColors from "../../types/appColors";
+interface ButtonProps {
+  variant?: "text" | "outlined" | "contained";
+  disabled?: boolean;
+  bgColor?: string; // Cambiado de backgroundColor a bgColor
+  size?: "small" | "medium" | "large";
+  onClick?: () => void;
+  children: React.ReactNode;
 }
 
-type ButtonProps = CustomButtonProps &
-  MuiButtonProps & {
-    size?: "small" | "medium" | "large";
-  };
-
-const StyledButton = styled(MuiButton, {
-  shouldForwardProp: (prop) =>
-    !["bgColor", "hoverBgColor"].includes(prop as string),
-})<ButtonProps>(({ theme, bgColor, hoverBgColor, width, size = "medium" }) => ({
-  backgroundColor: bgColor || theme.palette.primary.main,
-  color: theme.palette.primary.contrastText,
-  width: width || "auto",
-  padding:
+const StyledButton = styled.button<ButtonProps>`
+  background: ${({ bgColor, variant }) =>
+    variant === "contained"
+      ? bgColor || appColors.PRIMARY_COLOR
+      : "transparent"};
+  color: ${({ variant }) =>
+    variant === "contained" ? "white" : appColors.PRIMARY_COLOR};
+  border: ${({ variant }) =>
+    variant === "outlined" ? `1px solid ${appColors.PRIMARY_COLOR}` : "none"};
+  border-radius: 4px;
+  padding: ${({ size }) =>
     size === "small"
       ? "8px 12px"
       : size === "large"
       ? "14px 24px"
-      : "10px 16px",
-  fontSize:
+      : "10px 16px"};
+  font-size: ${({ size }) =>
     size === "small"
       ? "0.8125rem"
       : size === "large"
       ? "1.0625rem"
-      : "0.9375rem",
-  textTransform: "none",
-  transition: theme.transitions.create(["background-color", "transform"], {
-    duration: theme.transitions.duration.short,
-  }),
-  "&:hover": {
-    backgroundColor: hoverBgColor || bgColor || theme.palette.primary.dark,
-    transform: "translateY(-1px)",
-    "@media (hover: hover)": {
-      "&:disabled": {
-        transform: "none",
-      },
-    },
-  },
-  "&:disabled": {
-    opacity: 0.6,
-    backgroundColor: theme.palette.action.disabledBackground,
-    color: theme.palette.action.disabled,
-  },
-}));
+      : "0.9375rem"};
+  cursor: pointer;
+  transition: all 0.3s ease;
 
-export default function Button({
-  bgColor,
-  hoverBgColor,
-  width,
+  &:hover {
+    background: ${({ variant }) =>
+      variant === "contained"
+        ? "#0056b3" // Color de hover hardcodeado
+        : "#0667cf"};
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+`;
+
+export const Button = ({
+  disabled = false,
+  variant = "contained",
   size = "medium",
+  bgColor,
+  onClick,
   children,
-  ...props
-}: ButtonProps) {
+}: ButtonProps) => {
   return (
     <StyledButton
-      bgColor={bgColor}
-      hoverBgColor={hoverBgColor}
-      width={width}
+      variant={variant}
+      disabled={disabled}
       size={size}
-      {...props}
+      bgColor={bgColor}
+      onClick={onClick}
     >
       {children}
     </StyledButton>
   );
-}
+};

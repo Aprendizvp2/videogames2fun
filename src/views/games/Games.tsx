@@ -7,7 +7,7 @@ import { SelectChangeEvent } from "@mui/material";
 interface Game {
   id: number;
   title: string;
-  platforms: ("nintendo" | "xbox" | "playstation")[]; // Cambiado a array de plataformas
+  platforms: ("nintendo" | "xbox" | "playstation")[];
   description: string;
   price: string;
   imageUrl: string;
